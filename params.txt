@@ -1,0 +1,56 @@
+Cora:
+    lam = 0.1
+    epochs = 80
+    pd, pm = 0.3, 0.1
+    lr, wd = 1e-3, 1e-5
+    hid_dims = [256, 256]
+    lr2, wd2 = 1e-2, 1e-4
+
+CiteSeer:
+    lam = 0.05
+    epochs = 20
+    pd, pm = 0.4, 0.0
+    lr, wd = 1e-3, 1e-5
+    hid_dims = [512]
+    lr2, wd2 = 1e-2, 1e-2
+
+PubMed:
+    lam = 0.6
+    epochs = 100
+    pd, pm = 0.3, 0.5
+    lr, wd = 1e-3, 1e-5
+    hid_dims = [512, 256]
+    lr2, wd2 = 1e-2, 0.0
+
+WikiCS:
+    lam = 0.5
+    epochs = 50
+    pd, pm = 0.8, 0.1
+    lr, wd = 1e-2, 1e-6
+    hid_dims = [256, 256]
+    lr2, wd2 = 1e-2, 1e-4
+
+Computer:
+    lam = 1.
+    epochs = 120
+    pd, pm = 0.1, 0.3
+    lr, wd = 1e-3, 1e-5
+    hid_dims = [512, 512]
+    lr2, wd2 = 1e-2, 1e-4
+
+CoauthorCS:
+    lam = 0.05
+    epochs = 80
+    pd, pm = 1.0, 0.2
+    lr, wd = 1e-3, 1e-5
+    hid_dims = [512, 512]
+    lr2, wd2 = 1e-2, 1e-4
+
+ArXiv:
+    lam = 3
+    epochs = 400
+    pd, pm = 0.5, 0.3
+    lr, wd = 1e-2, 1e-6
+    hid_dims = [512, 512]
+    lr2, wd2 = 1e-2, 1e-4
+
