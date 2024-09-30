@@ -1,9 +1,11 @@
+import time
 import torch
 import torch.nn.functional as F
 from encoder import GCN, MLP
 from torch.optim import Adam
 from dgl import add_self_loop, to_bidirected
-from utils import get_logger, fix_seed, augment, node_classification
+from utils import get_logger, fix_seed, augment, \
+    node_classification, node_clustering, count_parameters
 from dgl.data import CoraGraphDataset, CiteseerGraphDataset, PubmedGraphDataset, \
     WikiCSDataset, AmazonCoBuyComputerDataset, CoauthorCSDataset
 from ogb.nodeproppred import DglNodePropPredDataset
@@ -91,6 +93,10 @@ if __name__ == '__main__':
     
     # Pre-train
     optimizer = Adam(encoder.parameters(), lr=lr, weight_decay=wd)
+
+    count_parameters(encoder)
+    start = time.time()
+    torch.cuda.reset_max_memory_allocated()
     for epoch in range(epochs):
         encoder.train()
         G1, X1 = augment(G, X, pd, pm)
@@ -116,6 +122,11 @@ if __name__ == '__main__':
         print(f'E:{epoch} Loss:{loss.item():.4f} '
               f'INV:{loss_inv.item():.4f} UNI:{loss_uni.item():.4f}')
     
+    print(f'Time: {time.time()-start:.2f}s')
+    max_memory_allocated_bytes = torch.cuda.max_memory_allocated()
+    max_memory_allocated_mb = max_memory_allocated_bytes / (1024 ** 2)
+    print(f'Memory: {max_memory_allocated_mb:.2f}MB')
+    
     # Evaluation
     encoder.eval()
     G = add_self_loop(G).to(device)
@@ -134,4 +145,5 @@ if __name__ == '__main__':
         node_classification(Z, Y, dataset, masks=masks, logger=logger, lr=lr2, wd=wd2)
     else:
         node_classification(Z, Y, dataset=dataset, masks=None, logger=logger, lr=lr2, wd=wd2)
+    node_clustering(Z, Y, logger=logger)
     logger.info('')
